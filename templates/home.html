@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>News Aggregator</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Connecting fontawesome CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Connecting Bootstrap CSS file -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
+    <style>
+      .parisienne-regular {
+        font-family: "Parisienne", cursive;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 28px; /* Increase the font size */
+      }
+
+      .navbar {
+        width: 100%; /* Increase the width of the navbar */
+      }
+
+      .navbar-nav {
+        margin-left: auto; /* Move nav menu to the right side */
+      }
+
+      .navbar .dropdown-menu {
+        position: absolute;
+      }
+
+      .card {
+        position: relative;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .active {
+        font-weight: bold;
+        color: #ffc107; /* Change the color of the active link */
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand parisienne-regular" href="#">Onion News Aggregator</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/scrape/latest/' %}active{% endif %}" href="{% url 'scrape' name='latest' %}">Latest</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/scrape/entertainment/' %}active{% endif %}" href="{% url 'scrape' name='entertainment' %}">Entertainment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/scrape/sports/' %}active{% endif %}" href="{% url 'scrape' name='sports' %}">Sports</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/scrape/politics/' %}active{% endif %}" href="{% url 'scrape' name='politics' %}">Politics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/scrape/opinion/' %}active{% endif %}" href="{% url 'scrape' name='opinion' %}">Opinion</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/scrape/breaking-news/' %}active{% endif %}" href="{% url 'scrape' name='breaking-news' %}">Breaking News</a>
+            </li>
+          </ul>
+          <button class="btn btn-warning ms-auto" id="themeChangeBtn">Change Theme</button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <div class="row">
+        {% for record in object_list %}
+        <div class="col-12 col-md-4 col-lg-3 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="{{ record.image }}" />
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{{ record.url }}">{{ record.title|truncatechars:50 }}</a>
+              </h5>
+            </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-secondary btn-sm" onclick="copyToClipboard('{{ record.url }}')">Copy</button>
+                <button class="btn btn-danger btn-sm">Report</button>
+                <div>
+                  <a class="btn btn-success btn-sm">Share</a>
+                  <a class="btn btn-outline-success btn-sm" href="https://www.facebook.com/sharer/sharer.php?u={{ currenturl }}"><i class="fa fa-facebook"></i></a>
+                  <a class="btn btn-outline-success btn-sm" href="https://api.whatsapp.com/send?text={{ currenturl }}"><i class="fa fa-whatsapp"></i></a>
+                  <a class="btn btn-outline-success btn-sm" href="https://t.me/share/url?text={{ currenturl }}"><i class="fa fa-telegram"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4">
+      <div class="container">
+        <p>&copy; 2024 Onion News Aggregator. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      function copyToClipboard(text) {
+        var input = document.createElement("textarea");
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        alert("Copied to clipboard: " + text);
+      }
+
+      document.getElementById("themeChangeBtn").addEventListener("click", themeChange);
+
+      function themeChange() {
+        var element = document.body;
+        element.classList.toggle("dark-mode");
+
+      }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
