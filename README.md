@@ -3,9 +3,10 @@ New Aggregator Using Django
 This project is a news aggregator developed using Django, which scrapes news headlines from a specified source and displays them on a web page.
 
 **Home Page**
-
+![newAggregator1](https://github.com/VaishnaviSingh1/New-Aggregator-Using-Django/assets/98222001/705758e3-1856-4dcb-a005-266acb645c1f)
 
 **News**
+
 
 
 
