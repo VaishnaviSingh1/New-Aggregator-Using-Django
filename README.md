@@ -2,12 +2,19 @@ New Aggregator Using Django
 ----
 This project is a news aggregator developed using Django, which scrapes news headlines from a specified source and displays them on a web page.
 
+**Home Page**
+
+
+**News**
+
+
+
 Installation
 ----
 1. Clone the repository and navigate into the project directory:
 ```
 
-git clone <repository-url>
+git clone https://github.com/VaishnaviSingh1/New-Aggregator-Using-Django.git
 cd New-Aggregator-Using-Django
 ```
 
@@ -19,8 +26,11 @@ source env/bin/activate  # On Windows use `env\Scripts\activate`
 ```
 
 3. Install dependencies using pip:
+```
 
 pip install -r requirements.txt
+```
+
 
 Running the Application
 ------
@@ -46,7 +56,7 @@ Usage
 To scrape news headlines, use the /scrape/<source-name> endpoint, where <source-name> is the name of the source to scrape from.
 
 2. Viewing News
-3. 
+   
 Navigate to /news/ to view the scraped news headlines.
 
 Technologies Used
